@@ -19,6 +19,7 @@
 #include <thread>
 #include <exception>
 
+#include "matrix.hh"
 
 
 std::string errorMessage
@@ -41,91 +42,50 @@ std::string errorMessage
 
 //template <class T>
 
-class Matrix {
+// constructor
+Matrix::Matrix ()
+: m_array(std::valarray<double>())
+, m_nRow(0)
+, m_nColumn(0)
+{};
 
-public:
-    // constructor
-    Matrix ()
-    : m_array(std::valarray<double>())
-    , m_nRow(0)
-    , m_nColumn(0)
-    {};
+// constructor
+Matrix::Matrix
+(
+    const std::valarray<double>& f_array, 
+    const size_t                 f_nRow,
+    const size_t                 f_nCol
+) 
+: m_array(f_array)
+, m_nRow(f_nRow)
+, m_nColumn(f_nCol)
+{};
 
-    // constructor
-    Matrix
-    (
-        const std::valarray<double>& f_array, 
-        const size_t                 f_nRow,
-        const size_t                 f_nCol
-    ) 
-    : m_array(f_array)
-    , m_nRow(f_nRow)
-    , m_nColumn(f_nCol)
-    {};
-
-    // construct
-    Matrix
-    (
-        const size_t f_nRow,
-        const size_t f_nCol
-    )
-    : m_nRow(f_nRow)
-    , m_nColumn(f_nCol)
-    {
-        m_array = std::valarray<double>(m_nRow * m_nColumn);
-    }
-
-    size_t nRow() const { return m_nRow; }
-    void nRow(size_t s) { m_nRow = s; m_array.resize(m_nRow * m_nColumn); }
-
-    size_t nColumn() const { return m_nColumn; }
-    void nColumn(size_t s) { m_nColumn = s; m_array.resize(m_nRow * m_nColumn); }
-
-    std::valarray<double> row(size_t f_index) const { 
-        assert(f_index < m_nRow);
-        return m_array[std::slice(f_index * m_nColumn, m_nColumn, 1)];
-    }
-
-    std::valarray<double> column(size_t f_index) const { 
-        assert(f_index < m_nColumn);
-        return m_array[std::slice(f_index, m_nRow, m_nColumn)]; 
-    }
-
-    double &operator[](size_t f_index) {
-        assert(f_index < m_nRow * m_nColumn);
-        return m_array[f_index];
-    }
-
-    Matrix operator*(const Matrix&);
-    Matrix transpose();
-
-    void print(std::streamsize width = 0) const {
-        std::streamsize originalWidth;
-        if (0 != width) {
-            originalWidth = std::cout.width(width);
-        }
-        for (size_t i=0; i<m_nRow; i++) {
-            for (size_t j=0; j<m_nColumn; j++) {
-                std::cout << ' ' << m_array[i*m_nColumn + j];
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-        if (0 != width) {
-            std::cout.width(originalWidth);
-        }
-    }
+// construct
+Matrix::Matrix
+(
+    const size_t f_nRow,
+    const size_t f_nCol
+)
+: m_nRow(f_nRow)
+, m_nColumn(f_nCol)
+{
+    m_array = std::valarray<double>(m_nRow * m_nColumn);
+}
 
 
-protected: 
-    std::valarray<double> m_array; // Leo: should use template type T
-    size_t                m_nRow;
-    size_t                m_nColumn;
-};
+double &Matrix::operator[]
+(
+    size_t f_index
+)
+{
+    assert(f_index < m_nRow * m_nColumn);
+    return m_array[f_index];
+}
 
 
 // matrix transpose
-Matrix Matrix::transpose()
+Matrix Matrix::transpose() const
 {
     std::valarray<double> resultArray(m_nColumn * m_nRow);
     for (size_t i=0; i<m_nColumn; i++) {
@@ -139,7 +99,7 @@ Matrix Matrix::transpose()
 Matrix Matrix::operator* 
 (
     const Matrix& rm
-)
+) const
 {
     //assert(m_nColumn == rm.nRow());
 
@@ -158,6 +118,28 @@ Matrix Matrix::operator*
     return std::move(result);
 }
 
+
+// dump matrix
+void Matrix::print
+(
+    std::streamsize f_width
+) const 
+{
+    std::streamsize originalWidth;
+    if (0 != f_width) {
+        originalWidth = std::cout.width(f_width);
+    }
+    for (size_t i=0; i<m_nRow; i++) {
+        for (size_t j=0; j<m_nColumn; j++) {
+            std::cout << ' ' << m_array[i*m_nColumn + j];
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+    if (0 != f_width) {
+        std::cout.width(originalWidth);
+    }
+}
 
 
 int main(int argc, char *argv[])
@@ -184,8 +166,6 @@ int main(int argc, char *argv[])
         std::cout << "m1 * m3" << std::endl;
         Matrix mr2 = m1 * m3;
         mr2.print();
-
-
     }
     catch(std::string& msg) {
         std::cout << msg << std::endl;
