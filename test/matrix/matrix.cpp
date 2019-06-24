@@ -9,14 +9,14 @@
 
 #include <assert.h>
 #include <cstddef>
+#include <iomanip>
 #include <iostream>
-//#include <fstream>
 #include <sstream>
 #include <string>
-#include <vector>
+//#include <vector>
 #include <valarray>
-#include <iterator>
-#include <thread>
+//#include <iterator>
+//#include <thread>
 #include <exception>
 
 #include "matrix.hh"
@@ -48,6 +48,7 @@ Matrix<T>::Matrix ()
 , m_nColumn(0)
 {};
 
+
 // constructor
 template <class T>
 Matrix<T>::Matrix
@@ -60,6 +61,7 @@ Matrix<T>::Matrix
 , m_nRow(f_nRow)
 , m_nColumn(f_nCol)
 {};
+
 
 // constructor
 template <class T>
@@ -75,15 +77,50 @@ Matrix<T>::Matrix
 }
 
 
-// matrix element at index
+// matrix row at index
 template <class T>
-T &Matrix<T>::operator[]
+std::valarray<T> Matrix<T>::row(size_t f_index) const { 
+    if (not (f_index < m_nRow)) {
+        std::stringstream msg;
+        msg << "row index " << f_index << " is out of range - total number of rows: " << m_nRow << std::endl;
+        throw errof_message(__FILE__, __PRETTY_FUNCTION__, __LINE__, msg.str());
+    }
+    return m_array[std::slice(f_index * m_nColumn, m_nColumn, 1)];
+}
+
+
+// matrix column at index
+template <class T>
+std::valarray<T> Matrix<T>::column(size_t f_index) const { 
+    if (not (f_index < m_nColumn)) {
+        std::stringstream msg;
+        msg << "column index " << f_index << " is out of range - total number of columns: " << m_nColumn << std::endl;
+        throw errof_message(__FILE__, __PRETTY_FUNCTION__, __LINE__, msg.str());
+    }
+    return m_array[std::slice(f_index, m_nRow, m_nColumn)]; 
+}
+
+
+// matrix element at (rowIndex, columnIndex)
+template <class T>
+T &Matrix<T>::operator()
 (
-    size_t f_index
+    size_t f_rowIndex, 
+    size_t f_columnIndex
 )
 {
-    assert(f_index < m_nRow * m_nColumn);
-    return m_array[f_index];
+    if (not (f_rowIndex < m_nRow)) {
+        std::stringstream msg;
+        msg << "row index " << f_rowIndex << " is out of range - total number of rows: " << m_nRow << std::endl;
+        throw errof_message(__FILE__, __PRETTY_FUNCTION__, __LINE__, msg.str());
+    }
+    if (not (f_columnIndex < m_nColumn)) {
+        std::stringstream msg;
+        msg << "column index " << f_columnIndex << " is out of range - total number of columns: " << m_nColumn << std::endl;
+        throw errof_message(__FILE__, __PRETTY_FUNCTION__, __LINE__, msg.str());
+    }
+    return m_array[f_rowIndex*m_nColumn + f_columnIndex];
+
 }
 
 
@@ -115,64 +152,62 @@ Matrix<T> Matrix<T>::operator*
     Matrix result(m_nRow, f_m.nColumn());
     for(size_t i = 0; i < m_nRow; ++i)
         for(size_t j = 0; j < f_m.nColumn(); ++j) {
-            result[i*f_m.nColumn() + j] = (row(i) * f_m.column(j)).sum();
+            result(i, j) = (row(i) * f_m.column(j)).sum();
         }
     return std::move(result);
 }
 
 
-// dump matrix
+// print matrix
 template <class T>
 void Matrix<T>::print
 (
     std::streamsize f_width
 ) const 
 {
-    std::streamsize originalWidth;
-    if (0 != f_width) {
-        originalWidth = std::cout.width(f_width);
-    }
     for (size_t i=0; i<m_nRow; i++) {
         for (size_t j=0; j<m_nColumn; j++) {
-            std::cout << ' ' << m_array[i*m_nColumn + j];
+            std::cout << " " << std::setw(f_width) << m_array[i*m_nColumn + j];
         }
         std::cout << std::endl;
     }
     std::cout << std::endl;
-    if (0 != f_width) {
-        std::cout.width(originalWidth);
-    }
 }
 
 
 int main(int argc, char *argv[])
 {
+    size_t outputWidth = 6;
+
+    Matrix<double> m0 (3, 5);
     Matrix<double> m1 = {std::valarray<double>{1, 2, 3, 4, 5, 6}, 2, 3};
-    Matrix<double> m2 = {std::valarray<double>(10, 6), 3, 2};
-    Matrix<double> m3 = {std::valarray<double>(10, 8), 4, 2};
+    Matrix<double> m2 = {std::valarray<double>(100, 6), 3, 2};
+    Matrix<double> m3 = {std::valarray<double>(100, 8), 4, 2};
 
     try {
-        std::cout << "m0" << std::endl;
-        Matrix<int> m0(5, 6);
-        m0.print();
+        std::cout << "Matrix 0" << std::endl;
+        m0.print(outputWidth);
 
         std::cout << "Matrix 1" << std::endl;
-        m1.print();
+        m1.print(outputWidth);
 
         std::cout << "Matrix 2" << std::endl;
-        m2.print();
+        m2.print(outputWidth);
+
+        std::cout << "Matrix 3" << std::endl;
+        m3.print(outputWidth);
 
         std::cout << "Matrix 1 transpose" << std::endl;
         const auto& m1t = m1.transpose();
-        m1t.print();
+        m1t.print(outputWidth);
 
-        std::cout << "m1 * m2" << std::endl;
-        Matrix<double> mr1 = m1 * m2;
-        mr1.print();
+        std::cout << "Multiplication: Matrix 1 * Matrix 2" << std::endl;
+        Matrix<double> mm12 = m1 * m2;
+        mm12.print(outputWidth);
 
-        std::cout << "m1 * m3" << std::endl;
-        Matrix<double> mr2 = m1 * m3;
-        mr2.print();
+        std::cout << "Multiplication: Matrix 1 * Matrix 3" << std::endl;
+        Matrix<double> mm13 = m1 * m3;
+        mm13.print(outputWidth);
     }
     catch(std::string& msg) {
         std::cout << msg << std::endl;
