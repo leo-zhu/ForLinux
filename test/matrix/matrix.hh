@@ -10,14 +10,13 @@
 // Date:    06/20/2019
 //---------------------------------------------------------
 
-//template <class T>
-
+template <class T>
 class Matrix {
 
 public:
     // constructor
     Matrix();
-    Matrix(const std::valarray<double>&, const size_t, const size_t);
+    Matrix(const std::valarray<T>&, const size_t, const size_t);
     Matrix(const size_t, const size_t);
 
     size_t nRow() const { return m_nRow; }
@@ -27,25 +26,25 @@ public:
     void nColumn(size_t s) { m_nColumn = s; m_array.resize(m_nRow * m_nColumn); }
 
     // Leo: do we need this?
-    std::valarray<double> row(size_t f_index) const { 
+    std::valarray<T> row(size_t f_index) const { 
         assert(f_index < m_nRow);
         return m_array[std::slice(f_index * m_nColumn, m_nColumn, 1)];
     }
 
     // Leo: do we need this?
-    std::valarray<double> column(size_t f_index) const { 
+    std::valarray<T> column(size_t f_index) const { 
         assert(f_index < m_nColumn);
         return m_array[std::slice(f_index, m_nRow, m_nColumn)]; 
     }
 
-    double &operator[](size_t);
+    T &operator[](size_t);
     Matrix operator*(const Matrix&) const;
     Matrix transpose() const;
 
     void print(std::streamsize = 0) const;
 
 private: 
-    std::valarray<double> m_array; // Leo: should use template type T
+    std::valarray<T> m_array; // Leo: should use template type T
     size_t                m_nRow;
     size_t                m_nColumn;
 };

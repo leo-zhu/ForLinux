@@ -22,7 +22,7 @@
 #include "matrix.hh"
 
 
-std::string errorMessage
+std::string errof_message
 (
     const std::string& f_fileName,
     const std::string& f_function,
@@ -40,29 +40,30 @@ std::string errorMessage
 }
 
 
-//template <class T>
-
 // constructor
-Matrix::Matrix ()
-: m_array(std::valarray<double>())
+template <class T>
+Matrix<T>::Matrix ()
+: m_array(std::valarray<T>())
 , m_nRow(0)
 , m_nColumn(0)
 {};
 
 // constructor
-Matrix::Matrix
+template <class T>
+Matrix<T>::Matrix
 (
-    const std::valarray<double>& f_array, 
-    const size_t                 f_nRow,
-    const size_t                 f_nCol
+    const std::valarray<T>& f_array, 
+    const size_t            f_nRow,
+    const size_t            f_nCol
 ) 
 : m_array(f_array)
 , m_nRow(f_nRow)
 , m_nColumn(f_nCol)
 {};
 
-// construct
-Matrix::Matrix
+// constructor
+template <class T>
+Matrix<T>::Matrix
 (
     const size_t f_nRow,
     const size_t f_nCol
@@ -70,11 +71,13 @@ Matrix::Matrix
 : m_nRow(f_nRow)
 , m_nColumn(f_nCol)
 {
-    m_array = std::valarray<double>(m_nRow * m_nColumn);
+    m_array = std::valarray<T>(m_nRow * m_nColumn);
 }
 
 
-double &Matrix::operator[]
+// matrix element at index
+template <class T>
+T &Matrix<T>::operator[]
 (
     size_t f_index
 )
@@ -85,9 +88,10 @@ double &Matrix::operator[]
 
 
 // matrix transpose
-Matrix Matrix::transpose() const
+template <class T>
+Matrix<T> Matrix<T>::transpose() const
 {
-    std::valarray<double> resultArray(m_nColumn * m_nRow);
+    std::valarray<T> resultArray(m_nColumn * m_nRow);
     for (size_t i=0; i<m_nColumn; i++) {
         resultArray[std::slice(i*m_nRow, m_nRow, 1)] = m_array[std::slice(i, m_nRow, m_nColumn)];
     }
@@ -96,31 +100,30 @@ Matrix Matrix::transpose() const
 
 
 // matrix multiplication
-Matrix Matrix::operator* 
+template <class T>
+Matrix<T> Matrix<T>::operator* 
 (
-    const Matrix& rm
+    const Matrix& f_m
 ) const
 {
-    //assert(m_nColumn == rm.nRow());
-
-    if (m_nColumn != rm.nRow()) {
-
+    if (m_nColumn != f_m.nRow()) {
         std::stringstream msg;
-        msg << "left-hand matrix column number (" << m_nColumn << ") != right-hand matrix row number (" << rm.nRow() << ")" << std::endl;
-        throw errorMessage(__FILE__, __PRETTY_FUNCTION__, __LINE__, msg.str());
+        msg << "left-hand matrix column number (" << m_nColumn << ") != right-hand matrix row number (" << f_m.nRow() << ")" << std::endl;
+        throw errof_message(__FILE__, __PRETTY_FUNCTION__, __LINE__, msg.str());
     }
 
-    Matrix result(m_nRow, rm.nColumn());
+    Matrix result(m_nRow, f_m.nColumn());
     for(size_t i = 0; i < m_nRow; ++i)
-        for(size_t j = 0; j < rm.nColumn(); ++j) {
-            result[i*rm.nColumn() + j] = (row(i) * rm.column(j)).sum();
+        for(size_t j = 0; j < f_m.nColumn(); ++j) {
+            result[i*f_m.nColumn() + j] = (row(i) * f_m.column(j)).sum();
         }
     return std::move(result);
 }
 
 
 // dump matrix
-void Matrix::print
+template <class T>
+void Matrix<T>::print
 (
     std::streamsize f_width
 ) const 
@@ -144,11 +147,15 @@ void Matrix::print
 
 int main(int argc, char *argv[])
 {
-    Matrix m1 = {std::valarray<double>{1, 2, 3, 4, 5, 6}, 2, 3};
-    Matrix m2 = {std::valarray<double>(10, 6), 3, 2};
-    Matrix m3 = {std::valarray<double>(10, 8), 4, 2};
+    Matrix<double> m1 = {std::valarray<double>{1, 2, 3, 4, 5, 6}, 2, 3};
+    Matrix<double> m2 = {std::valarray<double>(10, 6), 3, 2};
+    Matrix<double> m3 = {std::valarray<double>(10, 8), 4, 2};
 
     try {
+        std::cout << "m0" << std::endl;
+        Matrix<int> m0(5, 6);
+        m0.print();
+
         std::cout << "Matrix 1" << std::endl;
         m1.print();
 
@@ -160,11 +167,11 @@ int main(int argc, char *argv[])
         m1t.print();
 
         std::cout << "m1 * m2" << std::endl;
-        Matrix mr1 = m1 * m2;
+        Matrix<double> mr1 = m1 * m2;
         mr1.print();
 
         std::cout << "m1 * m3" << std::endl;
-        Matrix mr2 = m1 * m3;
+        Matrix<double> mr2 = m1 * m3;
         mr2.print();
     }
     catch(std::string& msg) {
