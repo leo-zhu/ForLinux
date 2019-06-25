@@ -1,46 +1,55 @@
 README
 
 Applicant:  Leo Zhu
-Date:       06/20/2019
+Date:       06/25/2019
 
-(1) Source code: 
-    matrix.cpp
+(1) Source code 
+    src/main.cpp
+    lib/include/matrix.hh
+    lib/src/matrix.cpp
 
-(2) Build command:
-    g++ -Wall -g -std=c++11 -lthread matrix.cpp -o matrix
+(2) Static library after build
+    lib/static/libmatrix.a
 
-(3) Program execution:
-    ./matrix <matrix_1> <matrix_2>
+(3) Shared library after build
+    lib/shared/libmatrix.so
 
-(4) Test program build system information
+(4) Program build
+    $ ./make_lib              // to build library files
+    $ ./make_main             // to build main executable files
 
-CentOS Linux release 7.2.1511 (Core) 
-Derived from Red Hat Enterprise Linux 7.2 (Source)
-NAME="CentOS Linux"
-VERSION="7 (Core)"
-ID="centos"
-ID_LIKE="rhel fedora"
-VERSION_ID="7"
-PRETTY_NAME="CentOS Linux 7 (Core)"
-ANSI_COLOR="0;31"
-CPE_NAME="cpe:/o:centos:centos:7"
-HOME_URL="https://www.centos.org/"
-BUG_REPORT_URL="https://bugs.centos.org/"
+(5) Program run
+    $ bin/main_static         // run the test main program, with static library "matrix" built-in
 
-CENTOS_MANTISBT_PROJECT="CentOS-7"
-CENTOS_MANTISBT_PROJECT_VERSION="7"
-REDHAT_SUPPORT_PRODUCT="centos"
-REDHAT_SUPPORT_PRODUCT_VERSION="7"
+    $ source setLibPath.sh    // set shared library path
+    $ bin/main_dynamic        // run the test main program, with dynamically-linked shared library "matrix"
 
-CentOS Linux release 7.2.1511 (Core) 
-cpe:/o:centos:centos:7
+(6) All files and path structure after build
 
-Linux version 3.10.0-327.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.3 20140911 (Red Hat 4.8.3-9) (GCC) ) #1 SMP Thu Nov 19 22:10:57 UTC 2015
+|-- bin
+|   |-- main_dynamic
+|   |-- main.o
+|   `-- main_static
+|-- lib
+|   |-- include
+|   |   `-- matrix.hh
+|   |-- shared
+|   |   |-- libmatrix.so
+|   |   `-- matrix.o
+|   |-- src
+|   |   `-- matrix.cpp
+|   `-- static
+|       |-- libmatrix.a
+|       `-- matrix.o
+|-- make_lib
+|-- make_main
+|-- readme.txt
+|-- setLibPath.sh
+`-- src
+    `-- main.cpp
 
-Linux localhost.localdomain 3.10.0-327.el7.x86_64 #1 SMP Thu Nov 19 22:10:57 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+(7) Test program build system information
+CentOS Linux release 7.5.1804 (Core)
 
-(5) Additional packages installed
-
-None.
 
 (end)
