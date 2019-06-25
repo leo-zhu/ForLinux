@@ -1,2 +1,0 @@
-g++ -Wall -g -std=c++11 -lpthread matrix.cpp -o matrix 
-
