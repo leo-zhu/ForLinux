@@ -1,0 +1,9 @@
+# create the main object file with specified library header file path
+g++ -Wall -g -std=c++11 -Ilib/include -c src/main.cpp -o bin/main.o
+
+## link with static library
+g++ bin/main.o -Llib/static -lmatrix -o bin/main_static
+
+## link with dynamically-shared library
+g++ bin/main.o -Llib/shared -lmatrix -o bin/main_dynamic
+

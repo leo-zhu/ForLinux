@@ -1,0 +1,7 @@
+## create static library
+g++ -Wall -g -std=c++11 -c lib/src/matrix.cpp -o lib/static/matrix.o
+ar rcs lib/static/libmatrix.a lib/static/matrix.o
+
+## create shared library
+g++ -Wall -g -std=c++11 -c -fPIC lib/src/matrix.cpp -o lib/shared/matrix.o
+g++ -shared lib/shared/matrix.o -o lib/shared/libmatrix.so
