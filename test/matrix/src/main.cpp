@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         std::cout << "Matrix 3" << std::endl;
         m3.print(outputWidth);
 
-        std::cout << "Matrix 1 transpose" << std::endl;
+        std::cout << "Transpose: Matrix 1" << std::endl;
         const auto& m1t = m1.transpose();
         m1t.print(outputWidth);
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         Matrix<double> mm12 = m1 * m2;
         mm12.print(outputWidth);
 
-        std::cout << "Multiplication: Matrix 1 * Matrix 3" << std::endl;
+        std::cout << "Multiplication: Matrix 1 * Matrix 3 (example for error)" << std::endl;
         Matrix<double> mm13 = m1 * m3;
         mm13.print(outputWidth);
     }
