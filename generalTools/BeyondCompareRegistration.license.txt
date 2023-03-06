@@ -1,0 +1,63 @@
+From:	Leo Zhu <zhushanbigmountain@yahoo.com>
+Sent:	Wednesday, September 14, 2016 3:06 PM
+To:	Shan(Leo) Zhu
+Subject:	Fw: Beyond Compare registration
+
+ 
+ 
+ 
+Sent from Yahoo Mail for iPhone
+Begin forwarded message: 
+ 
+On Friday, December 19, 2014, 5:05 PM, Scooter Software <orders@scootersoftware.com> 
+wrote:
+This message contains your license information for Beyond Compare  
+version 4.  Please save an electronic copy in a safe place.  You will  
+need this information again if you ever need to reinstall BC4. 
+ 
+========================================================= 
+ 
+Licensed to:    Shan Zhu 
+Quantity:      1 user  
+Serial number:  1540-6126 
+License type:  BC4 Standard Edition, Multi Platform 
+ 
+--- BEGIN LICENSE KEY --- 
+cCwjA6RPRRWwqXouYDBdTcDm5n8VLA8y3hjq+7dGAWZnYaXkyLomvGn
+IR 
+RlP2X1exWGvnFYO+D9xY2jIQfyR5qCamwIuKIxY2oZZzo+saAWOmju6++ 
+7HcrHZ9-RBOYblr4bSpf1GenNOAYycANvmbKrITRziHJgPz0aZ5EQzxTQ 
+PiC4J26152IdwUCzinVsXyK3GejqVQl827ftTCIW6F9FgQTieSKKB2QLJ 
+A2Zr9XVw3YusrgQVuk+0E46CbXuAWBxRPzrgt-E1Gi+BQ1DMRwdG5Y96z 
+C5FPqEuEouedvZPIh40d8kUWT2ssnKd94Lr+82zc8fMBamJ-Y+FkzeuBk 
+--- END LICENSE KEY ----- 
+ 
+========================================================= 
+ 
+You shouldn't try to type your license key manually.  Follow these  
+steps to enter the key: 
+ 
+1) If you haven't already, download and install Beyond Compare 4 from: 
+    http://www.scootersoftware.com/download.php 
+ 
+2) Highlight the above key and press Ctrl+C to copy it to the  
+clipboard.  It's okay if you include some of the message before and  
+after the key, but be sure to include the BEGIN and END lines and  
+everything in between. 
+ 
+3) Then, run Beyond Compare and select "Enter Key" (from the Help menu  
+or any of the "Evaluation" dialog boxes).  Beyond Compare should  
+automatically detect your key on the Clipboard -- Just click "OK" to  
+accept it. 
+ 
+4) Exit and restart Beyond Compare if it asks you to do so.  From the  
+Help menu, select "About Beyond Compare" to verify your license  
+information. 
+ 
+If you need any assistance or have any comments on Beyond Compare,  
+please e-mail:  support@scootersoftware.com 
+ 
+Sincerely, 
+Sales Team 
+Scooter Software 
+
