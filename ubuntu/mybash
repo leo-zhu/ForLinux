@@ -1,0 +1,15 @@
+. ~/myInit/linux.profile
+
+alias exp='explorer.exe'
+alias repo='cd ~/repos'
+alias logs='export |grep -e GLOG -e Log'
+alias v='vim'
+
+# For innoscope
+export Inno_Log_Level=1
+
+export GLOG_logtostderr=1
+export GLOG_stderrthreshold=3
+export GLOG_minloglevel=0
+export GLOG_log_dir=""
+export GLOG_v=4
