@@ -1,0 +1,24 @@
+[user]
+	name = "Leo Zhu" 
+	email = szhu@innophaseinc.com
+[push]
+	default = simple
+[status]
+	showUntrackedFiles = all
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[pull]
+	rebase = false
+[alias]
+    # git mr origin 1333 // merge request id !1333
+    mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' - 
+    unmerge = reset --hard ORIG_HEAD
+    sync = !git fetch --all --prune && git reset --hard @{u}
+    lg = log --name-only
+    lp = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short
+    lop= !git log --pretty=format:'%C(yellow)%h|%Cred%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=short | column -ts'|' | less -r
+    uncommit = reset --soft HEAD^
