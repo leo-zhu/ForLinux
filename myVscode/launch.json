@@ -4,8 +4,8 @@
             "name": "C/C++: g++ debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/<binary executable>",
-            "args": [],
+            "program": "${workspaceFolder}/tb/networktest",
+            "args": ["top.dot"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
