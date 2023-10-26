@@ -1,1 +1,1 @@
-LD_LIBRARY_PATH=/tools/bin/gnu/gcc-11.2.0/lib64 gdb $@
+LD_LIBRARY_PATH=<run-time libs> gdb $@
