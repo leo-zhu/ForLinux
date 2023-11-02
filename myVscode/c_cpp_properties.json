@@ -1,20 +1,31 @@
 {
+    "env": {
+        "myDefaultIncludePath": ["${workspaceFolder}", "${workspaceFolder}/include"],
+        "myCompilerPath": "/tools/bin/gnu/gcc-11.2.0/bin/g++"
+    },
     "configurations": [
         {
-            "name": "Win32",
+            "name": "linux",
+            "intelliSenseMode": "gcc-x64",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/include/sigc++-2.0",
-                "/usr/include/glibmm-2.4",
-                "/usr/include/glib-2.0",
+                "${workspaceFolder}/../../thirdparty/systemc/2.3.4/**",
+                "${workspaceFolder}/../../thirdparty/pybind11/**",
+                "${workspaceFolder}/../../thirdparty/nlohmann/json/**",
                 "/tools/bin/gnu/gcc-11.2.0/**",
                 "/usr/include"
             ],
+            "cppStandard": "c++17",
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
+            "browse": {
+                "path": ["${workspaceFolder}"],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
             "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
