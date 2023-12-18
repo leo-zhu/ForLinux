@@ -1,1 +1,0 @@
-LD_LIBRARY_PATH=/tools/other/gdb/13.2/lib:/tools/bin/gnu/gcc-11.2.0/lib64:/home/szhu/gitRoot/current/hermes3_systemc/thirdparty/systemc/2.3.4/lib64 /tools/other/gdb/13.2/bin/gdb $@
